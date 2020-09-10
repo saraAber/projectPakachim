@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simple Map</title>
+  <!-- <link rel="stylesheet" href="http://openlayers.org/en/v3.18.2/css/ol.css" type="text/css"> -->
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+      /* configure the size of the map */
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+  <!-- <script src="http://openlayers.org/en/v3.18.2/build/ol.js"></script> -->
+</head>
+
+<body>
+  <button id="find-me">Show my location</button><br />
+  <p id="status"></p>
+  <a id="map-link" target="_blank"></a>
+  <script>
+    function geoFindMe() {
+      const status = document.querySelector('#status');
+      const mapLink = document.querySelector('#map-link');
+      mapLink.href = '';
+      mapLink.textContent = '';
+      setInterval(function () {
+        if (navigator.geolocation) {
+          mapLink.textContent = `hiiiii`;
+          console.log("hiiiiiiiiii");
+          navigator.geolocation.watchPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            status.textContent = '';
+            mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+            mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+            console.log(position);
+          });
+        }
+        else{
+          console.log("else");
+        }
+      }, 20000);
+    }
+    document.querySelector('#find-me').addEventListener('click', geoFindMe);
+  </script>
+</body>
+
+</html>
+
+
+
+//////
+
+<!-- import { HttpClient } from '@angular/common/http';
+import { GoogleMap } from '@angular/google-maps';
+declare const google: any;
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent implements OnInit {
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+  lat = 0;
+  lng = 0;
+  zoom = 20;
+  center= new google.maps.LatLng(this.lat, this.lng);
+  options: google.maps.MapOptions = {
+    mapTypeId:  google.maps.MapTypeId.ROADMAP,
+    zoomControl: true,
+    scrollwheel: true,
+    disableDoubleClickZoom: true,
+    maxZoom: 15,
+    minZoom: 8,
+  }
+ 
+  constructor(private  http: HttpClient) { }
+
+  getCurrentLocation() {
+    if (navigator.geolocation) {
+         navigator.geolocation.watchPosition(position => {
+     
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.center=  new google.maps.LatLng(this.lat, this.lng);
+         var marker=  new google.maps.Marker({
+          position:new google.maps.LatLng(this.lat, this.lng),
+          setMap :this.map,
+          label:'marker',
+          title: 'Hello World!',
+          visible: true
+        });
+        let geocoder = new google.maps.Geocoder();
+        let latlng = new google.maps.LatLng(this.lat, this.lng);
+     
+        let request = {
+          latLng: latlng
+        };   
+
+        geocoder.geocode(request, (results, status) => {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0] != null) {
+              let city = results[0].address_components[results[0]
+                        .address_components.length-4].short_name;
+             alert(city);
+            } else {
+              alert("No address available");
+            }
+          }
+        });
+
+      });
+    }
+  }
+
+  ngOnInit() {
+  this.getCurrentLocation();
+ 
+  } -->
